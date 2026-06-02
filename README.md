@@ -2,7 +2,7 @@
 
 A production-grade, event-driven programmable agent runtime where **the runtime owns execution control, not the LLM**.
 
-Companion project to [nexus-agents](https://github.com/williamzujkowski/nexus-agents).
+Companion project to [nexus-agents](https://github.com/nexus-substrate/nexus-agents).
 
 ## Core Principles
 
@@ -22,7 +22,7 @@ Constraints → Interrupts → FSM/BT → Utility → Planner → LLM Advisory �
 
 ## Status
 
-**Phase: Scaffolding** — repository structure, docs, ADRs, and planning.
+**Working vertical slice** — Phases 1-3 complete with 60 passing tests covering the event bus, constraints, FSM, runtime loop, replay, and eval harness.
 
 ## Getting Started
 
@@ -57,7 +57,7 @@ console/       — CLI inspection and replay tooling
 
 ## Standards
 
-This project follows [nexus-agents CODING_STANDARDS.md](https://github.com/williamzujkowski/nexus-agents/blob/main/CODING_STANDARDS.md).
+This project follows [nexus-agents CODING_STANDARDS.md](https://github.com/nexus-substrate/nexus-agents/blob/main/CODING_STANDARDS.md).
 
 See [AGENTS.md](./AGENTS.md) for non-negotiable architectural rules.
 
