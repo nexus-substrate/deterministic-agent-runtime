@@ -14,13 +14,15 @@ See ADR-001: runtime owns control.
 
 from __future__ import annotations
 
-from core.models.state import AgentState, WorldState
-from core.models.actions import Action, ActionType, ActionResult
-from core.models.traces import DecisionTrace, DecisionReason
-from core.events.bus import EventBus, Event, EventType
-from core.constraints.engine import ConstraintEngine
-from adapters.simulation.grid import GridSimulation
-from policies.fsm.agent_fsm import AgentFSM
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from adapters.simulation.grid import GridSimulation
+    from core.constraints.engine import ConstraintEngine
+    from policies.fsm.agent_fsm import AgentFSM
+from core.events.bus import Event, EventBus, EventType
+from core.models.actions import Action, ActionType
+from core.models.traces import DecisionReason, DecisionTrace
 
 
 class RuntimeLoop:

@@ -8,10 +8,10 @@ Proves the vertical slice works end-to-end:
 - Same seed produces same outcome (replayability)
 """
 
-from core.events.bus import EventBus, EventType
-from core.constraints.engine import create_default_engine
-from core.runtime.loop import RuntimeLoop
 from adapters.simulation.grid import GridSimulation, SimulationConfig
+from core.constraints.engine import create_default_engine
+from core.events.bus import EventBus, EventType
+from core.runtime.loop import RuntimeLoop
 from policies.fsm.agent_fsm import AgentFSM
 
 
@@ -43,7 +43,7 @@ class TestFullScenario:
         run1 = self._run_scenario(seed=42)
         run2 = self._run_scenario(seed=42)
         assert len(run1.traces) == len(run2.traces)
-        for t1, t2 in zip(run1.traces, run2.traces):
+        for t1, t2 in zip(run1.traces, run2.traces, strict=True):
             assert t1.tick == t2.tick
             assert t1.selected_action.action_type == t2.selected_action.action_type
 
@@ -52,9 +52,9 @@ class TestFullScenario:
         run2 = self._run_scenario(seed=99)
         # Different seeds should produce different worlds
         # (traces may differ in length or actions)
-        traces_match = all(
+        all(
             t1.selected_action.action_type == t2.selected_action.action_type
-            for t1, t2 in zip(run1.traces, run2.traces)
+            for t1, t2 in zip(run1.traces, run2.traces, strict=False)
         )
         # Not a guarantee they differ, but very likely with different seeds
         assert len(run1.traces) > 0
@@ -85,7 +85,7 @@ class TestFullScenario:
         runtime = RuntimeLoop(sim, constraints, fsm, bus, max_ticks=30)
         runtime.run()
         # No constraint violation should crash the system
-        violations = bus.get_history(event_type=EventType.CONSTRAINT_VIOLATED)
+        bus.get_history(event_type=EventType.CONSTRAINT_VIOLATED)
         # Any violations were handled gracefully (fallback to wait)
         for trace in runtime.traces:
             if len(trace.constraints_violated) > 0:

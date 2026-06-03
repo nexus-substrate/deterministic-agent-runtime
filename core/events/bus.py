@@ -10,14 +10,12 @@ See ADR-001 for why events (not method calls) drive the system.
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Callable
-
-from core.models.state import Position
+from enum import StrEnum
 
 
-class EventType(str, Enum):
+class EventType(StrEnum):
     """All valid event types in the runtime."""
 
     # Simulation events

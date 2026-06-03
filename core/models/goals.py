@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel
 
 
-class GoalStatus(str, Enum):
+class GoalStatus(StrEnum):
     """Goal lifecycle status."""
 
     ACTIVE = "active"

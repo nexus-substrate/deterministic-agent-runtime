@@ -11,10 +11,11 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
+from typing import ClassVar
 
-from core.models.state import WorldState, AgentState, Position
-from core.models.actions import Action, ActionType, ActionResult
-from core.events.bus import EventBus, Event, EventType
+from core.events.bus import Event, EventBus, EventType
+from core.models.actions import Action, ActionResult, ActionType
+from core.models.state import AgentState, Position, WorldState
 
 
 @dataclass
@@ -175,7 +176,7 @@ class GridSimulation:
             energy_cost=self._config.move_cost, tick=self._world.tick,
         )
 
-    _action_handlers: dict[ActionType, object] = {
+    _action_handlers: ClassVar[dict[ActionType, object]] = {
         ActionType.MOVE: _handle_move,
         ActionType.WAIT: _handle_wait,
         ActionType.ATTACK: _handle_attack,

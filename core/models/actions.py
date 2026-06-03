@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, Field
 
-from core.models.state import Position
+if TYPE_CHECKING:
+    from core.models.state import Position
 
 
-class ActionType(str, Enum):
+class ActionType(StrEnum):
     """Available agent actions."""
 
     MOVE = "move"

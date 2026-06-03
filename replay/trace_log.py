@@ -7,8 +7,10 @@ Replay is a first-class feature, not an afterthought.
 from __future__ import annotations
 
 import json
-from pathlib import Path
-from dataclasses import asdict
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 from core.models.traces import DecisionTrace
 

@@ -10,14 +10,13 @@ where they provide clear intra-mode value.
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
-from core.models.state import AgentState, WorldState
 from core.models.actions import Action, ActionType
-from core.models.state import Position
+from core.models.state import AgentState, Position, WorldState
 
 
-class AgentMode(str, Enum):
+class AgentMode(StrEnum):
     """Top-level agent behavior modes."""
 
     EXPLORE = "explore"
