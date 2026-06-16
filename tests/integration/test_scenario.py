@@ -47,18 +47,29 @@ class TestFullScenario:
             assert t1.tick == t2.tick
             assert t1.selected_action.action_type == t2.selected_action.action_type
 
-    def test_different_seed_different_result(self) -> None:
-        run1 = self._run_scenario(seed=42)
-        run2 = self._run_scenario(seed=99)
-        # Different seeds should produce different worlds
-        # (traces may differ in length or actions)
-        traces_match = all(
-            t1.selected_action.action_type == t2.selected_action.action_type
-            for t1, t2 in zip(run1.traces, run2.traces)
+    def test_different_seed_different_world(self) -> None:
+        """Different seeds must produce different worlds.
+
+        World generation is fully seeded, so the obstacle/threat layout is
+        guaranteed to differ between distinct seeds. This is the core
+        determinism guarantee: the seed actually drives the simulation.
+        """
+        common = {"width": 8, "height": 8, "num_obstacles": 4, "num_threats": 2}
+        sim1 = GridSimulation(SimulationConfig(seed=42, **common), EventBus())
+        sim2 = GridSimulation(SimulationConfig(seed=99, **common), EventBus())
+        # Guaranteed-by-construction: seeded layouts differ across seeds.
+        assert (sim1.world.obstacles, sim1.world.threats) != (
+            sim2.world.obstacles,
+            sim2.world.threats,
         )
-        # Not a guarantee they differ, but very likely with different seeds
-        assert len(run1.traces) > 0
-        assert len(run2.traces) > 0
+
+    def test_same_seed_same_world(self) -> None:
+        """Same seed must produce an identical world (reproducibility)."""
+        common = {"width": 8, "height": 8, "num_obstacles": 4, "num_threats": 2}
+        sim1 = GridSimulation(SimulationConfig(seed=42, **common), EventBus())
+        sim2 = GridSimulation(SimulationConfig(seed=42, **common), EventBus())
+        assert sim1.world.obstacles == sim2.world.obstacles
+        assert sim1.world.threats == sim2.world.threats
 
     def test_events_emitted(self) -> None:
         bus = EventBus()
