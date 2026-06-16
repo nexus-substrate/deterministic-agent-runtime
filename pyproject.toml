@@ -22,6 +22,20 @@ dev = [
     "pre-commit",
 ]
 
+[tool.hatch.build.targets.wheel]
+packages = [
+    "core",
+    "policies",
+    "adapters",
+    "executor",
+    "telemetry",
+    "replay",
+    "plugins",
+    "llm",
+    "eval",
+    "console",
+]
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"
